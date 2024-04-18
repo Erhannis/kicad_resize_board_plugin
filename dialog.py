@@ -6,16 +6,16 @@ from .dialog_base import ConfigDialogBase
 
 @dataclass
 class Config:
-    new_width: int = 100
-    new_height: int = 100
-    planes_inset_left: int = 1
-    planes_inset_right: int = 1
-    planes_inset_top: int = 1
-    planes_inset_bottom: int = 1
-    mounts_inset_left: int = 4
-    mounts_inset_right: int = 4
-    mounts_inset_top: int = 4
-    mounts_inset_bottom: int = 4    
+    new_width: float = 100
+    new_height: float = 100
+    planes_inset_left: float = 1
+    planes_inset_right: float = 1 
+    planes_inset_top: float = 1 
+    planes_inset_bottom: float = 1 
+    mounts_inset_left: float = 4 
+    mounts_inset_right: float = 4 
+    mounts_inset_top: float = 4
+    mounts_inset_bottom: float = 4
     #CHECK match_entire or something. ?
 
 # Vaguely templated after TransformIt ui

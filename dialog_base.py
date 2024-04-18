@@ -27,6 +27,11 @@ class ConfigDialogBase ( wx.Dialog ):
         self.m_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         bSizer3 = wx.BoxSizer( wx.VERTICAL )
 
+        self.m_staticText25 = wx.StaticText( self.m_panel, wx.ID_ANY, u"Select a rectangle (board edge), a number of zones (e.g. ground planes), and footprints (mounting hole footprints).  The board will be resized to the new dimensions, the zones will be resized to match minus the new insets, and the footprints will be paired with the nearest corner and inset accordingly.", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText25.Wrap( 375 )
+
+        bSizer3.Add( self.m_staticText25, 0, wx.ALL, 5 )
+
         fgSizer1 = wx.FlexGridSizer( 0, 3, 0, 0 )
         fgSizer1.SetFlexibleDirection( wx.BOTH )
         fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
@@ -55,12 +60,21 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
+        self.m_staticline112 = wx.StaticLine( self.m_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+        fgSizer1.Add( self.m_staticline112, 0, wx.EXPAND |wx.ALL, 5 )
+
+        self.m_staticline113 = wx.StaticLine( self.m_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+        fgSizer1.Add( self.m_staticline113, 0, wx.EXPAND |wx.ALL, 5 )
+
+
+        fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
         self.m_staticText3 = wx.StaticText( self.m_panel, wx.ID_ANY, u"Zones inset left", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText3.Wrap( -1 )
 
         fgSizer1.Add( self.m_staticText3, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_zi_left = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -360, 360, 0, 5 )
+        self.m_zi_left = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_zi_left.SetDigits( 2 )
         fgSizer1.Add( self.m_zi_left, 0, wx.ALL|wx.EXPAND, 5 )
 
@@ -71,7 +85,7 @@ class ConfigDialogBase ( wx.Dialog ):
         fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
         self.m_linkZonesButton = LinkToggle(self.m_panel)
-        self.m_linkZonesButton.SetToolTip( u"Preserve aspect ratio" )
+        self.m_linkZonesButton.SetToolTip( u"Use 'left' value for all zone insets" )
 
         fgSizer1.Add( self.m_linkZonesButton, 0, wx.ALIGN_CENTER_HORIZONTAL, 5 )
 
@@ -83,7 +97,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText5, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_zi_right = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_zi_right = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_zi_right.SetDigits( 2 )
         self.m_zi_right.Enable( False )
 
@@ -97,7 +111,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText6, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_zi_top = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_zi_top = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_zi_top.SetDigits( 2 )
         self.m_zi_top.Enable( False )
 
@@ -111,11 +125,20 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText61, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_zi_bottom = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_zi_bottom = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_zi_bottom.SetDigits( 2 )
         self.m_zi_bottom.Enable( False )
 
         fgSizer1.Add( self.m_zi_bottom, 0, wx.ALL, 5 )
+
+
+        fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+        self.m_staticline11 = wx.StaticLine( self.m_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+        fgSizer1.Add( self.m_staticline11, 0, wx.ALL|wx.EXPAND, 5 )
+
+        self.m_staticline111 = wx.StaticLine( self.m_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+        fgSizer1.Add( self.m_staticline111, 0, wx.EXPAND |wx.ALL, 5 )
 
 
         fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
@@ -125,7 +148,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText31, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_mi_left = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -360, 360, 0, 5 )
+        self.m_mi_left = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_mi_left.SetDigits( 2 )
         fgSizer1.Add( self.m_mi_left, 0, wx.ALL, 5 )
 
@@ -136,7 +159,7 @@ class ConfigDialogBase ( wx.Dialog ):
         fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
         self.m_linkMountsButton = LinkToggle(self.m_panel)
-        self.m_linkMountsButton.SetToolTip( u"Preserve aspect ratio" )
+        self.m_linkMountsButton.SetToolTip( u"Use 'left' value for all footprint insets" )
 
         fgSizer1.Add( self.m_linkMountsButton, 0, wx.ALIGN_CENTER_HORIZONTAL, 5 )
 
@@ -148,7 +171,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText51, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_mi_right = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_mi_right = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_mi_right.SetDigits( 2 )
         self.m_mi_right.Enable( False )
 
@@ -162,7 +185,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText62, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_mi_top = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_mi_top = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_mi_top.SetDigits( 2 )
         self.m_mi_top.Enable( False )
 
@@ -176,7 +199,7 @@ class ConfigDialogBase ( wx.Dialog ):
 
         fgSizer1.Add( self.m_staticText611, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-        self.m_mi_bottom = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 10000, 100, 5 )
+        self.m_mi_bottom = wx.SpinCtrlDouble( self.m_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, -100000, 100000, 0, 1 )
         self.m_mi_bottom.SetDigits( 2 )
         self.m_mi_bottom.Enable( False )
 
