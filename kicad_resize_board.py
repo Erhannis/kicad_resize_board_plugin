@@ -77,10 +77,17 @@ class ResizeBoardPlugin(pcbnew.ActionPlugin):
             #RAINY Save settings?
             self.config = dialog.GetConfig()
 
-            #DUMMY Resize board
+            # Resize board
+            b_start = boundary.GetStart()
+            b_end = boundary.GetEnd()
+            b_start_orig = pcbnew.VECTOR2I(b_start.x, b_start.y)
+            b_end_orig = pcbnew.VECTOR2I(b_end.x, b_end.y)
+            print("before", b_start_orig, b_end_orig)
             boundary.SetEnd(boundary.GetStart()+pcbnew.VECTOR2I_MM(self.config.new_width, self.config.new_height))
             b_start = boundary.GetStart()
             b_end = boundary.GetEnd()
+            print("after", b_start_orig, b_end_orig)
+            print("afte2", b_start, b_end)
 
             # Find gnd planes
             selected_zones = [item for item in board.Zones() if item.IsSelected()]
@@ -159,28 +166,32 @@ class ResizeBoardPlugin(pcbnew.ActionPlugin):
             selected_footprints = [item for item in board.Footprints() if item.IsSelected()]
             for f in selected_footprints:
                 fc = f.GetCenter()
-                btl = boundary.GetStart()
-                bbr = boundary.GetEnd()
-                btr = pcbnew.VECTOR2I(bbr.x, btl.y)
-                bbl = pcbnew.VECTOR2I(btl.x, bbr.y)
+                btlo = b_start_orig
+                bbro = b_end_orig
+                btro = pcbnew.VECTOR2I(bbro.x, btlo.y)
+                bblo = pcbnew.VECTOR2I(btlo.x, bbro.y)
+                btln = b_start
+                bbrn = b_end
+                btrn = pcbnew.VECTOR2I(bbrn.x, btln.y)
+                bbln = pcbnew.VECTOR2I(btln.x, bbrn.y)
 
                 bc = None
-                if abs(fc.x-btl.x) < abs(fc.x-bbr.x):
+                if abs(fc.x-btlo.x) < abs(fc.x-bbro.x):
                     # Closer to left side
-                    if abs(fc.y-btl.y) < abs(fc.y-bbr.y):
+                    if abs(fc.y-btlo.y) < abs(fc.y-bbro.y):
                         # Closer to top side
-                        bc = pcbnew.VECTOR2I(btl.x, btl.y)+pcbnew.VECTOR2I_MM(+self.config.mounts_inset_left,+self.config.mounts_inset_top)
+                        bc = pcbnew.VECTOR2I(btln.x, btln.y)+pcbnew.VECTOR2I_MM(+self.config.mounts_inset_left,+self.config.mounts_inset_top)
                     else:
                         # Closer to bottom side
-                        bc = pcbnew.VECTOR2I(bbl.x, bbl.y)+pcbnew.VECTOR2I_MM(+self.config.mounts_inset_left,-self.config.mounts_inset_bottom)
+                        bc = pcbnew.VECTOR2I(bbln.x, bbln.y)+pcbnew.VECTOR2I_MM(+self.config.mounts_inset_left,-self.config.mounts_inset_bottom)
                 else:
                     # Closer to right side
-                    if abs(fc.y-btl.y) < abs(fc.y-bbr.y):
+                    if abs(fc.y-btlo.y) < abs(fc.y-bbro.y):
                         # Closer to top side
-                        bc = pcbnew.VECTOR2I(btr.x, btr.y)+pcbnew.VECTOR2I_MM(-self.config.mounts_inset_right,+self.config.mounts_inset_top)
+                        bc = pcbnew.VECTOR2I(btrn.x, btrn.y)+pcbnew.VECTOR2I_MM(-self.config.mounts_inset_right,+self.config.mounts_inset_top)
                     else:
                         # Closer to bottom side
-                        bc = pcbnew.VECTOR2I(bbr.x, bbr.y)+pcbnew.VECTOR2I_MM(-self.config.mounts_inset_right,-self.config.mounts_inset_bottom)
+                        bc = pcbnew.VECTOR2I(bbrn.x, bbrn.y)+pcbnew.VECTOR2I_MM(-self.config.mounts_inset_right,-self.config.mounts_inset_bottom)
 
                 f.Move(bc-fc)
 
