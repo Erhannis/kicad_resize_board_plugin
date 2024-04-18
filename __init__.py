@@ -1,3 +1,1 @@
-print("loading sp init")
-
-from . import kicad_group_rename
+from . import kicad_resize_board
